@@ -331,7 +331,11 @@
 #endif
 
 #if defined(CONFIG_SPL_SFC_NOR) || defined(CONFIG_SPL_SFC_NAND)
+
+#ifndef CONFIG_SPL_SFC_SUPPORT
 #define CONFIG_SPL_SFC_SUPPORT
+#endif
+
 #define CONFIG_JZ_SFC
 #define CONFIG_SPL_VERSION     1
 #ifdef CONFIG_SPL_SFC_NOR
@@ -446,7 +450,10 @@
 #define CONFIG_ENV_SECT_SIZE 0x20000 /* 128K*/
 #define SPI_NAND_BLK            0x20000 /*the spi nand block size */
 #define CONFIG_ENV_SIZE         SPI_NAND_BLK /* uboot is 1M but the last block size is the env*/
+
+#ifndef CONFIG_ENV_OFFSET
 #define CONFIG_ENV_OFFSET       0xc0000 /* offset is 768k */
+#endif
 #define CONFIG_ENV_OFFSET_REDUND (CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE)
 #define CONFIG_ENV_IS_IN_SFC_NAND
 #endif
@@ -604,11 +611,15 @@
 #ifdef CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV		0
 #define CONFIG_ENV_SIZE			(32 << 10)
+#ifndef CONFIG_ENV_OFFSET
 #define CONFIG_ENV_OFFSET		(CONFIG_SYS_MONITOR_LEN + CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR * 512)
+#endif
 #elif CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SECT_SIZE	(1024 * 16)
 #define CONFIG_ENV_SIZE			(1024 * 16)
+#ifndef CONFIG_ENV_OFFSET
 #define CONFIG_ENV_OFFSET		(CONFIG_SYS_MONITOR_LEN + CONFIG_UBOOT_OFFSET)
+#endif
 #endif
 
 /**

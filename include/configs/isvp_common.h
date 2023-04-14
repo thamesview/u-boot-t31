@@ -6,7 +6,9 @@
     #define CONFIG_SOC "t31"
 #endif
 
+#ifndef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND "setenv setargs setenv bootargs ${bootargs}; run setargs; sf probe 0; sf read ${baseaddr} 0x50000 0x300000; bootm ${baseaddr}; reset"
+#endif
 
 #if (defined(CONFIG_DDR2_128M) || defined(CONFIG_DDR3_128M))
 #define CONFIG_EXTRA_SETTINGS \
@@ -31,16 +33,24 @@
 */
 
 #ifdef CONFIG_SPL_MMC_SUPPORT
+    #ifndef CONFIG_BOOTCOMMAND
     #define CONFIG_BOOTCOMMAND "setenv setargs setenv bootargs ${bootargs}; run setargs; sf probe 0; mmc read ${baseaddr} 0x1800 0x3000; bootm ${baseaddr}"
+    #endif
 #endif
 #ifdef CONFIG_SFC_NOR
+    #ifndef CONFIG_BOOTCOMMAND
     #define CONFIG_BOOTCOMMAND "setenv setargs setenv bootargs ${bootargs}; run setargs; sf probe; sf read ${baseaddr} 0x50000 0x300000; bootm ${baseaddr}; reset"
+    #endif
 #endif
 #ifdef CONFIG_SFC_NAND
+    #ifndef CONFIG_BOOTCOMMAND
     #define CONFIG_BOOTCOMMAND "setenv setargs setenv bootargs ${bootargs}; run setargs; sf probe 0; sfcnand read 0x50000 0x200000 ${baseaddr} ; bootm ${baseaddr}; reset"
+    #endif
 #endif
 
+#ifndef CONFIG_BOOTARGS
 #define CONFIG_BOOTARGS "mem=\${osmem} rmem=\${rmem} console=ttyS1,115200n8 panic=20 root=/dev/mtdblock3 rootfstype=squashfs init=/init mtdparts=\${mtdparts} \${extras}"
+#endif
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
     "baseaddr=0x80600000\0" \
@@ -69,11 +79,21 @@
     "soc="CONFIG_SOC"\0" \
     CONFIG_EXTRA_SETTINGS
 
+#ifndef CONFIG_SFC_MIN_ALIGN 
 #define CONFIG_SFC_MIN_ALIGN 0x10000
+#endif
 
+#ifndef CONFIG_ENV_OFFSET
 #define CONFIG_ENV_OFFSET       0x40000
+#endif
+
+#ifndef CONFIG_ENV_SIZE 
 #define CONFIG_ENV_SIZE         0x10000
+#endif
+
+#ifndef CONFIG_ENV_SECT_SIZE
 #define CONFIG_ENV_SECT_SIZE    0x10000
+#endif
 
 #undef CONFIG_SYS_PROMPT
 #define CONFIG_SYS_PROMPT	"OpenIPC # "
@@ -88,25 +108,50 @@
 #define CONFIG_SYS_MAXARGS      64
 #define CONFIG_SYS_NO_FLASH
 
+#ifndef CONFIG_SYS_CBSIZE 
 #define CONFIG_SYS_CBSIZE 2048 /* Console I/O Buffer Size */
+#endif
+
 #define CONFIG_SYS_PBSIZE (CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_MALLOC_LEN (32 * 1024 * 1024)
+
+#ifndef CONFIG_SYS_BOOTPARAMS_LEN 
 #define CONFIG_SYS_BOOTPARAMS_LEN (256 * 1024)
+#endif
+
+#ifndef CONFIG_SYS_MONITOR_LEN
 #define CONFIG_SYS_MONITOR_LEN (230 * 1024)
+#endif
 
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #define CONFIG_CMDLINE_TAG
 
 #define CONFIG_BOOTDELAY 1
 #define CONFIG_CMD_TFTPPUT 1
+
+#ifndef CONFIG_CMD_FAT
 #define CONFIG_CMD_FAT 1
+#endif
+
 #define CONFIG_CMD_FS_GENERIC 1
 #define CONFIG_CMD_GPIO 1
 #define CONFIG_NETMASK 255.255.255.0
+
+#ifndef CONFIG_GATEWAYIP
 #define CONFIG_GATEWAYIP 192.168.1.1
+#endif
+
+#ifndef CONFIG_SERVERIP
 #define CONFIG_SERVERIP 192.168.1.254
+#endif
+
+#ifndef CONFIG_IPADDR
 #define CONFIG_IPADDR 192.168.1.10
+#endif
+
+#ifndef CONFIG_ETHADDR
 #define CONFIG_ETHADDR 00:00:23:34:45:66
+#endif
 
 #define CONFIG_AUTO_UPDATE	1
 #ifdef CONFIG_AUTO_UPDATE

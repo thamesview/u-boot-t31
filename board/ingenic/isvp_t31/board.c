@@ -131,7 +131,7 @@ int spl_start_uboot(void)
 /* U-Boot common routines */
 int checkboard(void)
 {
-	puts("Board: ISVP (Ingenic XBurst T31 SoC)\n");
+	puts("Board: JIG-C (Ingenic XBurst T31 SoC)\n");
 	return 0;
 }
 
